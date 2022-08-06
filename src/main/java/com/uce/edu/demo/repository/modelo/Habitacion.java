@@ -66,6 +66,12 @@ public class Habitacion {
 		this.tipo = tipo;
 	}
 	
+	@Override
+	public String toString() {
+		return "Habitacion [id=" + id + ", numero=" + numero + ", piso=" + piso + ", tipo=" + tipo + ", hotel=" + hotel
+				+ "]";
+	}
+	
 	
 	
 }

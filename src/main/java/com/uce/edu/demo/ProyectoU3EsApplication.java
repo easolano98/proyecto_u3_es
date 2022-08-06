@@ -8,15 +8,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.uce.edu.demo.cajero.repository.modelo.Factura;
-import com.uce.edu.demo.cajero.service.IFacturaService;
+import com.uce.edu.demo.repository.modelo.Hotel;
+import com.uce.edu.demo.service.IHotelService;
 
 @SpringBootApplication
 public class ProyectoU3EsApplication implements CommandLineRunner {
 	private static final Logger LOGGER = Logger.getLogger(ProyectoU3EsApplication.class);
 
 	@Autowired
-	private IFacturaService facturaService;
+	private IHotelService hotelService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU3EsApplication.class, args);
@@ -26,42 +26,25 @@ public class ProyectoU3EsApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		LOGGER.info("Inner Join");
-		List<Factura> listaFactura = this.facturaService.buscarFacturaInnerJoin(10);
-		for (Factura f : listaFactura) {
-			LOGGER.info("Factura " + f);
-
+		LOGGER.info("Relacionamient WHERE");
+		List<Hotel> listaHoteles = this.hotelService.buscarHotelJoinWhere("Matrimonial");
+		for (Hotel h : listaHoteles) {
+			LOGGER.info("Hoteles: " + h.getNombre() + " " + h.getDireccion());
 		}
 
-		List<Factura> listaFactura2 = this.facturaService.buscarFacturaInnerJoin();
-		for (Factura f : listaFactura2) {
-			LOGGER.info("Factura " + f);
+		LOGGER.info("Inner Join EAGER/LAZY");
+		List<Hotel> listaHotelesInner = this.hotelService.buscarHotelInnerJoin("Matrimonial");
+		for (Hotel h : listaHotelesInner) {
+			LOGGER.info("Hoteles 2 : " + h.getNombre() + " " + h.getDireccion());
+			LOGGER.info("Hoteles 2 Habitaciones: " + h.getHabitaciones());
 
 		}
-
-		LOGGER.info("Left Join");
-		List<Factura> listaFacturaLeft = this.facturaService.buscarFacturaJoinLeft(10);
-		for (Factura f : listaFacturaLeft) {
-			LOGGER.info("Factura " + f);
-
-		}
-
-		List<Factura> listaFacturaLeft2 = this.facturaService.buscarFacturaJoinLeft();
-		for (Factura f : listaFacturaLeft2) {
-			LOGGER.info("Factura " + f);
-
-		}
-
-		LOGGER.info("Right Join");
-		List<Factura> listaFacturaRight = this.facturaService.buscarFacturaJoinRight(10);
-		for (Factura f : listaFacturaRight) {
-			LOGGER.info("Factura " + f);
-
-		}
-
-		List<Factura> listaFacturaRight2 = this.facturaService.buscarFacturaJoinRight();
-		for (Factura f : listaFacturaRight2) {
-			LOGGER.info("Factura " + f);
+		
+		LOGGER.info("Inner Join FETCH");
+		List<Hotel> listaHotelesFetch = this.hotelService.buscarHotelJoinFetch("Matrimonial");
+		for (Hotel h : listaHotelesFetch) {
+			LOGGER.info("Hoteles 3 : " + h.getNombre() + " " + h.getDireccion());
+			LOGGER.info("Hoteles 3 Habitaciones: " + h.getHabitaciones());
 
 		}
 
