@@ -24,8 +24,11 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		TypedQuery<Factura> query = this.entityManager.createQuery(
 				"SELECT f FROM Factura f JOIN f.detalles de WHERE de.cantidad=: datoCantidad", Factura.class);
 		query.setParameter("datoCantidad", cantidad);
-
-		return query.getResultList();
+		List<Factura> facturas=query.getResultList();
+		for(Factura f: facturas ) {
+			f.getDetalles().size();
+		}
+		return facturas;
 	}
 
 	@Override
@@ -72,6 +75,26 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		TypedQuery<Factura> query = this.entityManager.createQuery(
 				"SELECT f FROM Factura f RIGHT JOIN f.detalles de ", Factura.class);
 
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Factura> buscarFacturaJoinWhere(Integer cantidad) {
+		// TODO Auto-generated method stub
+		TypedQuery<Factura>query= this.entityManager.createQuery("SELECT f FROM Factura f, Detalle de WHERE f = de.factura AND de.cantidad=: datoCantidad ", Factura.class);
+		query.setParameter("datoCantidad", cantidad);
+		List<Factura>facturas=query.getResultList();
+		for(Factura f: facturas ) {
+			f.getDetalles().size();
+		}
+		return facturas;
+	}
+
+	@Override
+	public List<Factura> buscarFacturaJoinFetch(Integer cantidad) {
+		// TODO Auto-generated method stub
+		TypedQuery<Factura>query=this.entityManager.createQuery("SELECT f FROM Factura f JOIN FETCH f.detalles de WHERE de.cantidad=: datoCantidad ", Factura.class);
+		query.setParameter("datoCantidad", cantidad);
 		return query.getResultList();
 	}
 

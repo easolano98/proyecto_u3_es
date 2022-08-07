@@ -28,7 +28,7 @@ public class Factura {
 	private String numero;
 	
 	
-	@OneToMany(mappedBy = "factura", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "factura", fetch = FetchType.LAZY)
 	private List<Detalle> detalles;
 	
 	
@@ -67,10 +67,10 @@ public class Factura {
 		this.detalles = detalles;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", fecha=" + fecha + ", numero=" + numero + "]";
+		return "Factura [id=" + id + ", fecha=" + fecha + ", numero=" + numero + ", detalles=" + detalles + "]";
 	}
-	
 	
 }
