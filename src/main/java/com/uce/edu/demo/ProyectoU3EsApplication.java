@@ -38,7 +38,7 @@ public class ProyectoU3EsApplication implements CommandLineRunner {
 //			LOGGER.info("Hoteles 3 : " + h.getNombre() + " " + h.getDireccion());
 //			LOGGER.info("Hoteles 3 Habitaciones: " + h.getHabitaciones());}
 		
-		this.iTransferenciaService.realizarTransferenciaFachada("12454871", "12474871", new BigDecimal(1));
+//		this.iTransferenciaService.realizarTransferenciaFachada("12454871", "12474871", new BigDecimal(1));
 		
 	}
 

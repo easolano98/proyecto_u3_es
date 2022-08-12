@@ -60,4 +60,22 @@ public class HotelServiceImpl implements IHotelService{
 		return this.hotelRepository.buscarHotelOuterJoinLeft();
 	}
 
+	@Override
+	public void insertar(Hotel hotel) {
+		// TODO Auto-generated method stub
+		this.hotelRepository.insertar(hotel);
+	}
+
+	@Override
+	public int actualizarHotel(String nombre, String direccion) {
+		// TODO Auto-generated method stub
+		return this.hotelRepository.actualizarHotel(nombre, direccion);
+	}
+
+	@Override
+	public int eliminarHotel(String direccion) {
+		// TODO Auto-generated method stub
+		return this.hotelRepository.eliminarHotel(direccion);
+	}
+
 }

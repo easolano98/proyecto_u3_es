@@ -52,7 +52,6 @@ public class TransferenciaServiceImpl implements ITransferenciaService {
 		
 	}
 
-
 	@Override
 	@Transactional(value=TxType.REQUIRED)
 	public void realizarTransferenciaFachada(String ctaOrigen, String ctaDestino, BigDecimal monto) {
