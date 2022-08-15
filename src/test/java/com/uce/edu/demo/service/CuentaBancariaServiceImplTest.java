@@ -1,7 +1,7 @@
-package com.uce.edu.demo;
+package com.uce.edu.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,24 +15,18 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-import com.uce.edu.demo.repository.ICuentaBancariaRepository;
-import com.uce.edu.demo.repository.ITransferenciaRepository;
 import com.uce.edu.demo.repository.modelo.CuentaBancaria;
 import com.uce.edu.demo.repository.modelo.Transferencia;
-import com.uce.edu.demo.service.ITransferenciaService;
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Transactional
-public class CuentaBancariaTest {
-
-	@Autowired
-	private ITransferenciaRepository iTransferenciaRepository;
+class CuentaBancariaServiceImplTest {
 
 	@Autowired
 	private ITransferenciaService iTransferenciaService;
 
 	@Autowired
-	private ICuentaBancariaRepository iCuentaBancariaRepository;
+	private ICuentaBancariaService iCuentaBancariaService;
 
 	@Test
 	@Rollback(true)
@@ -49,15 +43,15 @@ public class CuentaBancariaTest {
 	@Rollback(true)
 	public void insertarTransferenciaTest() {
 
-		CuentaBancaria ctaOrigen = this.iCuentaBancariaRepository.buscarPorNumero("12454871");
-		CuentaBancaria ctaDestino = this.iCuentaBancariaRepository.buscarPorNumero("12474871");
+		CuentaBancaria ctaOrigen = this.iCuentaBancariaService.buscarPorNumero("12454871");
+		CuentaBancaria ctaDestino = this.iCuentaBancariaService.buscarPorNumero("12474871");
 
 		Transferencia tra = new Transferencia();
 		tra.setFecha(LocalDateTime.now());
 		tra.setMonto(new BigDecimal("111"));
 		tra.setCuentaOrigen(ctaOrigen);
 		tra.setCuentaDestino(ctaDestino);
-		this.iTransferenciaRepository.insertar(tra);
+		this.iTransferenciaService.insertar(tra);
 
 		assertNotNull(tra.getMonto());
 
@@ -66,7 +60,7 @@ public class CuentaBancariaTest {
 	@Test
 	@Rollback(true)
 	public void cuentaBancariaBuscarPorNumeroTest() {
-
-		assertThat(this.iCuentaBancariaRepository.buscarPorNumero("12454871")).isNotNull();
+				
+		assertThat(this.iCuentaBancariaService.buscarPorNumero("12454871")).isNotNull();
 	}
 }
