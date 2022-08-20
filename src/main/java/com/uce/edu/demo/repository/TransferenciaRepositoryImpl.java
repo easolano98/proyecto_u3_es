@@ -21,6 +21,7 @@ public class TransferenciaRepositoryImpl implements ITransferenciaRepository {
 	public void insertar(Transferencia transferencia) {
 		// TODO Auto-generated method stub
 		this.entityManager.persist(transferencia);
+		throw new RuntimeException();
 	}
 
 }
