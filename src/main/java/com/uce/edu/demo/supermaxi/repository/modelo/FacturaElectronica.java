@@ -2,7 +2,6 @@ package com.uce.edu.demo.supermaxi.repository.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +41,6 @@ public class FacturaElectronica {
 		public void setFecha(LocalDateTime fecha) {
 			this.fecha = fecha;
 		}
-		
 		public String getNumero() {
 			return numero;
 		}
