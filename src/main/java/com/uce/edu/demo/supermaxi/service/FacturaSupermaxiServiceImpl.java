@@ -40,7 +40,7 @@ public class FacturaSupermaxiServiceImpl implements IFacturaService {
 	private IFacturaElectronicaRepository electronicaRepository;
 
 	@Override
-	@Transactional(value = TxType.REQUIRED)
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public Factura generar(String cedula, String numeroFactura, List<String> codigos) {
 		// TODO Auto-generated method stub
 		List<Detalle> detalles = new ArrayList<>();
@@ -54,9 +54,9 @@ public class FacturaSupermaxiServiceImpl implements IFacturaService {
 			Detalle deta = new Detalle();
 			deta.setCantidad(1);
 			deta.setFactura(fact);
-			deta.setProducto(this.productoRepository.buscar(codigoProd));
-			deta.setSubtotal(deta.getProducto().getPrecio());
 			Producto producto = this.productoRepository.buscar(codigoProd);
+			deta.setProducto(producto);
+			deta.setSubtotal(deta.getProducto().getPrecio());
 			producto.setStock(producto.getStock() - deta.getCantidad());
 			this.productoRepository.actualizar(producto);
 			detalles.add(deta);
