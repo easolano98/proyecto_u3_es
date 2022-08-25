@@ -3,6 +3,7 @@ package com.uce.edu.demo.supermaxi.repository.modelo;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +34,7 @@ public class Factura {
 	@JoinColumn(name="fact_clie_id")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "factura", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "factura", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Detalle> detalles;
 	
 	

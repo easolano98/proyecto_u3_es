@@ -14,6 +14,7 @@ import com.uce.edu.demo.supermaxi.repository.modelo.Cliente;
 import com.uce.edu.demo.supermaxi.repository.modelo.Producto;
 import com.uce.edu.demo.supermaxi.service.IClienteService;
 import com.uce.edu.demo.supermaxi.service.IFacturaService;
+import com.uce.edu.demo.supermaxi.service.IGestorComprasService;
 import com.uce.edu.demo.supermaxi.service.IProductoService;
 
 @SpringBootApplication
@@ -24,7 +25,7 @@ public class ProyectoU3EsApplication implements CommandLineRunner {
 	private IProductoService iProductoService;
 	
 	@Autowired
-	private IFacturaService facturaService;
+	private IGestorComprasService comprasService;
 	
 	@Autowired
 	private IClienteService clienteService;
@@ -72,7 +73,7 @@ public class ProyectoU3EsApplication implements CommandLineRunner {
 		detalles.add(producto3.getNumero());
 		
 		
-		this.facturaService.generar(cliente.getCedula(), "001", detalles );
+		this.comprasService.generarFacturaElectronicaSRI(cliente.getCedula(), "008", detalles );;
 		
 		
 		

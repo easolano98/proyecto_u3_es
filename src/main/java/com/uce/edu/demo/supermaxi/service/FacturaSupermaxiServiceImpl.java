@@ -12,13 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uce.edu.demo.supermaxi.repository.IClienteRepository;
-import com.uce.edu.demo.supermaxi.repository.IDetalleRepository;
-import com.uce.edu.demo.supermaxi.repository.IFacturaElectronicaRepository;
 import com.uce.edu.demo.supermaxi.repository.IFacturaRepository;
 import com.uce.edu.demo.supermaxi.repository.IProductoRepository;
 import com.uce.edu.demo.supermaxi.repository.modelo.Detalle;
 import com.uce.edu.demo.supermaxi.repository.modelo.Factura;
-import com.uce.edu.demo.supermaxi.repository.modelo.FacturaElectronica;
 import com.uce.edu.demo.supermaxi.repository.modelo.Producto;
 
 @Service
@@ -33,23 +30,18 @@ public class FacturaSupermaxiServiceImpl implements IFacturaService {
 	@Autowired
 	private IClienteRepository clienteRepo;
 
-	@Autowired
-	private IDetalleRepository detalleRepository;
-
-	@Autowired
-	private IFacturaElectronicaRepository electronicaRepository;
-
+	
 	@Override
 	@Transactional(value = TxType.REQUIRES_NEW)
-	public Factura generar(String cedula, String numeroFactura, List<String> codigos) {
+	public BigDecimal generar(String cedula, String numeroFactura, List<String> codigos) {
 		// TODO Auto-generated method stub
 		List<Detalle> detalles = new ArrayList<>();
-
+		BigDecimal totalPagar = new BigDecimal(0);
 		Factura fact = new Factura();
 		fact.setNumero(numeroFactura);
 		fact.setCliente(this.clienteRepo.buscar(cedula));
 		fact.setFecha(LocalDateTime.now());
-		this.facturaRepository.insertar(fact);
+		
 		for (String codigoProd : codigos) {
 			Detalle deta = new Detalle();
 			deta.setCantidad(1);
@@ -57,38 +49,21 @@ public class FacturaSupermaxiServiceImpl implements IFacturaService {
 			Producto producto = this.productoRepository.buscar(codigoProd);
 			deta.setProducto(producto);
 			deta.setSubtotal(deta.getProducto().getPrecio());
+			totalPagar = totalPagar.add(deta.getSubtotal());
 			producto.setStock(producto.getStock() - deta.getCantidad());
 			this.productoRepository.actualizar(producto);
 			detalles.add(deta);
-			this.detalleRepository.insertar(deta);
+			//this.detalleRepository.insertar(deta);
 
 		}
 		fact.setDetalles(detalles);
-		return fact;
+		this.facturaRepository.insertar(fact);
+		return totalPagar;
 
 	}
 
-	@Override
-	@Transactional(value = TxType.REQUIRES_NEW)
-	public void generarFachada(String cedula, String numeroFactura, List<String> codigos) {
-		// TODO Auto-generated method stub
-		Factura facturaFachada = this.generar(cedula, numeroFactura, codigos);
-		BigDecimal totalPagar = new BigDecimal(0);
+	
 
-		FacturaElectronica factElectronica = new FacturaElectronica();
-		factElectronica.setNumeroItem(facturaFachada.getDetalles().size());
-		factElectronica.setFecha(LocalDateTime.now());
-		factElectronica.setNumero(numeroFactura);
-		for (Detalle detalle : facturaFachada.getDetalles()) {
-			totalPagar = totalPagar.add(detalle.getSubtotal());
-		}
-		factElectronica.setMonto(totalPagar);
-		try {
-			this.electronicaRepository.insertar(factElectronica);
-		} catch (Exception e) {
-
-		}
-
-	}
+	
 
 }
